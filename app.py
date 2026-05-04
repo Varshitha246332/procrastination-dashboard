@@ -8,8 +8,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import datetime
 import os
-import smtplib
-from email.message import EmailMessage
 
 # Set Streamlit page config
 st.set_page_config(
@@ -304,28 +302,8 @@ with st.container():
                 st.toast("High Risk & Approaching Deadline!", icon="🚨")
                 st.error("⚠️ **CRITICAL WARNING:** Your procrastination risk is HIGH and this deadline is less than 3 days away. Start immediately!")
                 
-                # Attempt to send actual email
-                try:
-                    sender_email = st.secrets["EMAIL_ADDRESS"]
-                    sender_password = st.secrets["EMAIL_PASSWORD"]
-                    
-                    if sender_email == "your_email@gmail.com" or sender_password == "your_app_password_here":
-                        st.warning("⚠️ **Email Setup Required**: You need to update `.streamlit/secrets.toml` with your real email and App Password to receive emails.")
-                    else:
-                        msg = EmailMessage()
-                        msg.set_content(f"Warning! Your task '{task_name}' is due on {deadline}.\n\nYour current procrastination risk is calculated at {risk_percentage:.2f}%. Please start working on this immediately to avoid missing your deadline.")
-                        msg['Subject'] = f"Urgent: Start working on {task_name}"
-                        msg['From'] = sender_email
-                        msg['To'] = email
-                        
-                        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-                            smtp.login(sender_email, sender_password)
-                            smtp.send_message(msg)
-                            
-                        st.success(f"📧 **Alert Sent!** An email has been sent successfully to **{email}**.")
-                        
-                except Exception as e:
-                    st.error(f"Failed to send email. Error: {e}")
+                # Mock email notification display
+                st.info(f"📧 **Simulation**: An alert email has just been sent to **{email}** reminding you about '{task_name}'.")
                     
             else:
                 st.success("Task saved successfully!")
